@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<div class="main main-raised mt-4">
+  <div class="container">
+    <br>
+    <div class="header text-center">
+      <h3 class="title">Task 4/5</h3>
+    </div>
+
+    <p>Step 1: Select up to <strong>960 min</strong> of PIXL experiments.</p>
+    <p>Place your PIXL experiments on the image.</p>
+    <p>Number them by priority (relevance)</p>
+
+    <br><br>
+    <a href="{{ url_for('protocols') }}" class="btn btn-primary item
+            pull-right">Restart</a>
+    <br><br><br>
+  </div>
+</div>
+{% include 'includes/_footer.html' %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h4 class="title">Please fill this report introduction:</h4>
+<form>
+  <label for="textarea">Some notes on your background</label>
+  <textarea type="text-area" class="form-control" id="textarea" placeholder="(to help us understand your scientific choices.)"></textarea>
+</form>
+
+<!-- proceed button -->
+{% with page = 'outcrop',  back='analyses2'  %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h4 class="text-center">
+  Our field area is a <strong>wet aeolian environment</strong>, similar to the Burns formation in Victoria
+  Crater, Mars. We are located in an <strong>interdune</strong> area.
+</h4>
+
+<div class="row">
+  <div class="col">
+    <div class="card text-center" style="width: 100%;">
+      <div class="card-body">
+        <h4>
+          Out field work area is <strong>wet aeolian environment.</strong> <br>
+          We are located in an <strong>interdune</strong> area, <br>
+          where <strong>microbial mats</strong> used to grow.
+        </h4>
+      </div>
+    </div>
+    <img src="https://storage.googleapis.com/geovision-site/interdune.png" width="100%" />
+  </div>
+  <div class="col">
+    <div class="row">
+      <div class="card text-center" style="width: 100%;">
+        <div class="card-body">
+          <h4>
+            It is similar to the Burns formation in Victoria Crater, Mars.
+          </h4>
+        </div>
+      </div>
+      <div class="col">
+        <img src="https://storage.googleapis.com/geovision-site/bg_1_1.png" height="80px" />
+        <img src="https://storage.googleapis.com/geovision-site/bg_1_2.png" height="300px" />
+      </div>
+      <div class="col">
+        <img src="https://storage.googleapis.com/geovision-site/bg_2.png" height="300px" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- proceed button -->
+{% with page = 'hypothesis', back = 'organization' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

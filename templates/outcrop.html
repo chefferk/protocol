@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row">
+  <div class="card text-center" style="width: 100%;">
+    <div class="card-body">
+      <h4>
+        Here is the outcrop to be analyzed! <br>
+        For now, there are no other chemical analyses from other instruments.
+      </h4>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <img src="https://storage.googleapis.com/geovision-site/outcrop.png" style="display: block; margin-left: auto; margin-right: auto; height: 500px;" />
+</div>
+
+<!-- proceed button -->
+{% with page = 'task1', back = 'task1' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

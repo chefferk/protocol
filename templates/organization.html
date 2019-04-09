@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="header text-center">
+    <h4>
+      This survey will be completed in two main steps. <br>
+      In each, you will be provided with <strong>information</strong> (you can go back at any time) <br>
+      and address a series of <strong>tasks</strong>.
+    </h4>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <div class="card-text">
+              <h4 class="card-title">Today</h4>
+            </div>
+          </div>
+          <div class="card-body" align="left">
+            <h4>
+              Information provided:
+            </h4>
+            <ul>
+              <li>Geological context of the study area.</li>
+              <li>Outcrop imagery.</li>
+              <li>PIXL-like analyses types & constraints.</li>
+              <li>Biosignature hypothesis to be tested.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body" align="left">
+            <h4>
+              Your Tasks:
+            </h4>
+            <ul>
+              <li>Select target areas, priority.</li>
+              <li>Choose & locate PIXL-like analyses.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-header card-header-secondary">
+            <div class="card-text">
+              <h4 class="card-title">Next time</h4>
+            </div>
+          </div>
+          <div class="card-body" align="left">
+            <h4>
+              Information provided:
+            </h4>
+            <ul>
+              <li>Geological context of the study area.</li>
+              <li>Outcrop imagery.</li>
+              <li>PIXL-like analyses types & constraints.</li>
+              <li>Biosignature hypothesis to be tested.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body" align="left">
+            <h4>
+              Your Tasks:
+            </h4>
+            <ul>
+              <li>Select target areas, priority.</li>
+              <li>Choose & locate PIXL-like analyses.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- proceed button -->
+{% with page = 'background', back = 'protocol' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

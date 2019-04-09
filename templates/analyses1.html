@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row">
+  <div class="card text-center" style="width: 100%;">
+    <div class="card-body">
+      <h4>
+        The PIXL (Planetary Instrument for X-ray Lithochemistry) <br>
+        onboard the Mars-2020 rover is a microfocus XRF (<strong>fluorescence</strong>) instrument. <br>
+        It measures <strong>elemental chemistry</strong> at sub-millimeter scales <br>
+        by focusing an X-ray beam to a tiny spot on the target rock or soil and analyzing the induced X-ray fluorescence.
+      </h4>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <img src="https://storage.googleapis.com/geovision-site/xrf.png" width="100%" />
+  </div>
+  <div class="col">
+    <img src="https://storage.googleapis.com/geovision-site/xrf2.png" width="100%" />
+  </div>
+  <div class="col">
+    <img src="https://storage.googleapis.com/geovision-site/pixl.jpg" width="100%" />
+  </div>
+</div>
+
+<!-- proceed button -->
+{% with page = 'analyses2', back = 'hypothesis' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

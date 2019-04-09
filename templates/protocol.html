@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="header text-center">
+    <p>
+      <h3>Welcome!</h3>
+      In this survey you will select <strong>µXRF analyses</strong>
+      that simulate the PIXL instrument onboard the Mars2020 <br>
+      rover in order to analyze an outcrop for potential <strong>biosignature</strong>
+      detection.
+    </p>
+  </div>
+</div>
+
+<!-- proceed button -->
+{% with page = 'organization' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

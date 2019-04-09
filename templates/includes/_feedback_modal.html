@@ -1,0 +1,51 @@
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                swal({
+                    title: "Thank you!",
+                    text: "Your feedback has been sent",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- Feedback modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <h3 class="card-title text-center mt-4 mb-4">Feedback</h3>
+                    <div class="form-group ml-4 mr-4 mt-4">
+                      {{ form.message.label(class="form-control-label") }}
+                      {% if form.message.errors %}
+                          {{ form.message(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.message.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                      {% else %}
+                          {{ form.message(rows="5", class="form-control form-control-lg") }}
+                      {% endif %}
+                  </div>
+                  <div class="form-group modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                      {{ form.submit(class="btn btn-success") }}
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

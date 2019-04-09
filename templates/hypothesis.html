@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row">
+  <div class="col">
+    <div class="card text-center" style="width: 100%;">
+      <div class="card-body">
+        <h3>Hypothesis:</h3>
+        <h4>
+          In the aeolian deposites studied here, <br>
+          the geological horizons bearing former <strong>microbial mats</strong> <br>
+          present a geochemical composition in Fe, Ti, Zr. <br>
+          distinct from the surrounding aeolian deposits without <br>
+          microbial mats
+          <br><br>
+          The model is that Fe is reduced & leached, <br>
+          producing lower Fe/Ti and ilmenite/rutile.
+        </h4>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <img src="https://storage.googleapis.com/geovision-site/mats.png" height="500px" />
+  </div>
+</div>
+
+<!-- proceed button -->
+{% with page = 'analyses1', back = 'background' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}
