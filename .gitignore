@@ -127,6 +127,12 @@ dmypy.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+node_modules/
+.vscode/
+settings.json
+secretnotes.md
+imports/lib/
+public/fonts/
 
 # OS generated files #
 ######################
