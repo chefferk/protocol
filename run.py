@@ -11,7 +11,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
 # ---------- db class ---------- #
 # class User(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
@@ -28,23 +27,6 @@ db = SQLAlchemy(app)
 #       5. build a logging system?
 
 
-# TOC: [1]  Survey goal
-#      [2]  Survey organization
-#      [3]  Geological context
-#      [4]  Biosignature hypothesis
-#      [5]  Analyses: PIXL-like XRF (1/2)
-#      [6]  Analyses: PIXL-like XRF (2/2)
-#      [7]  Task 1/4
-#      [8]  Outcrop
-#      [9]  Task 2/4
-#      [10] Here is a high resolution imagery
-#      [11] Task 3/4
-#      [12] Task 4/4
-
-
-# NOTE: this timer seems to be a quick hack with several drawbacks
-#       (it would mess up if someone goes back to the first page)
-#       a better option might be sessions/cookies
 class Survey:
     def __init__(self):
         print('Survey object created.')
@@ -65,6 +47,7 @@ survey = Survey()
 # survey [1]
 @app.route('/')
 def protocol():
+    # start timer
     return render_template('protocol.html', page_number=1, title='Survey Goal')
 
 
@@ -110,24 +93,29 @@ def outcrop():
     return render_template('outcrop.html', page_number=8, title=False)
 
 
+# Task 2/4 [9]
 @app.route('/task2')
 def task2():
-    return render_template('task2.html', page_number=5)
+    return render_template('task2.html', page_number=9)
 
 
+# High resolution imagery [10]
 @app.route('/task3')
 def task3():
-    return render_template('task3.html', page_number=6)
+    return render_template('task3.html', page_number=10)
 
 
+# Task 3/4 [11]
 @app.route('/task4')
 def task4():
-    return render_template('task4.html', page_number=7)
+    return render_template('task4.html', page_number=11)
 
 
+# Task 4/4 [12]
 @app.route('/xrf')
 def xrf():
-    return render_template('xrf.html', page_number=8)
+    # end timer, save data to db
+    return render_template('xrf.html', page_number=12)
 
 
 if __name__ == '__main__':

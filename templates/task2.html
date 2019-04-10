@@ -1,14 +1,10 @@
 {% extends 'layout.html' %}
-{%- block head -%}
-<link rel="stylesheet" href="/static/css/cropper.css">
-{%- endblock -%}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/cropper.css">
+{% endblock %}
+
 {% block body %}
-<div class="main main-raised mt-4">
-  <div class="container">
-    <br>
-    <div class="header text-center">
-      <h3 class="title">Task 2/5</h3>
-    </div>
     <div class="container text-center" max-width="1000px" style="max-width: 1000px">
       <div class="row" id="actions">
         <div class="col-md-12 docs-buttons mb-0 mt-0">
@@ -62,16 +58,13 @@
           <h4>Please draw a bounding box to highlight it.</h4>
         </div>
       </div>
-
     </div>
 
-    <!--  -->
-    <br><br>
-    <a href="{{ url_for('task3') }}" class="btn btn-primary item pull-right">Proceed</a>
-    <br><br><br>
-  </div>
-</div>
-{% include 'includes/_footer.html' %}
+<!-- proceed button -->
+{% with page = 'task3',  back='outcrop'  %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.min.js"></script>
 <script src="/static/js/main1.js"></script>
 {% endblock %}
