@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row">
+  <div class="card text-center" style="width: 100%;">
+    <div class="card-body">
+      <h4>
+        Here is a high resolution imagery, of the outcrop area where PIXL analyses will be done.
+      </h4>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <img src="https://storage.googleapis.com/geovision-site/outcrop.png" style="display: block; margin-left: auto; margin-right: auto; height: 500px;" />
+</div>
+
+<!-- proceed button -->
+{% with page = 'task3', back = 'task2' %}
+{% include 'includes/_proceed_button.html' %}
+{% endwith %}
+
+{% endblock %}

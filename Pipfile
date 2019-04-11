@@ -7,13 +7,13 @@ verify_ssl = true
 autopep8 = "*"
 pylint = "*"
 rope = "*"
-black = "*"
 yapf = "*"
 flake8 = "*"
 
 [packages]
 flask-sqlalchemy = "*"
 flask-admin = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.7"

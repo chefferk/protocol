@@ -4,22 +4,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="main main-raised mt-4">
-  <div class="container">
-    <br>
-    <div class="header text-center">
-      <h3 class="title">Task 4/5</h3>
-    </div>
-
-    <p>Step 1: Select up to <strong>960 min</strong> of PIXL experiments.</p>
-    <p>Place your PIXL experiments on the image.</p>
-    <p>Number them by priority (relevance)</p>
-
-    <br><br>
-    <a href="{{ url_for('protocols') }}" class="btn btn-primary item
-            pull-right">Restart</a>
-    <br><br><br>
-  </div>
+<div class="header text-center">
+  <h3 class="title">THANK YOU!</h3>
+  <h4 class="title">Your PIXL analyses are ready to be uplinked to the rover.</h4>
+  <p>Results coming soon…</p>
 </div>
-{% include 'includes/_footer.html' %}
+
+<br><br>
+<a href="{{ url_for('protocol') }}" class="btn btn-primary item pull-right">Restart</a>
+<br><br><br>
+
+
 {% endblock %}

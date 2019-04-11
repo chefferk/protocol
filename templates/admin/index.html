@@ -1,5 +1,49 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-<a href="{{ url_for('protocol' ) }}">Survey</a>
+<a href="{{ url_for('protocol' ) }}">Survey</a> <br><br>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="linechart_material"></div>
+
+<script>
+  google.charts.load('current', { 'packages': ['line'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Day');
+    data.addColumn('number', 'Completed Surveys');
+
+    data.addRows([
+      [1, 0],
+      [2, 0],
+      [3, 1],
+      [4, 1],
+      [5, 2],
+      [6, 3],
+      [7, 5],
+      [8, 2],
+      [9, 4],
+      [10, 7],
+      [11, 5],
+      [12, 3],
+      [13, 4],
+      [14, 7]
+    ]);
+
+    var options = {
+      chart: {
+        title: 'Number of completed serverys',
+        subtitle: 'per day'
+      },
+      width: 900,
+      height: 500
+    };
+
+    var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+    chart.draw(data, google.charts.Line.convertOptions(options));
+  }</script>
+
 {% endblock %}
