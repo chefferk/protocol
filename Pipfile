@@ -14,6 +14,8 @@ flake8 = "*"
 flask-sqlalchemy = "*"
 flask-admin = "*"
 flask-login = "*"
+flask-wtf = "*"
+wtforms = "*"
 
 [requires]
 python_version = "3.7"

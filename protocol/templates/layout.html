@@ -48,9 +48,11 @@
         {% endblock %}
 
         <!-- page number -->
+        {% if page_number %}
         {% with page_number = page_number %}
         {% include 'includes/_page_number.html' %}
         {% endwith %}
+        {% endif %}
       </div>
     </div>
 

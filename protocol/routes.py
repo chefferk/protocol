@@ -2,12 +2,14 @@ from flask import render_template, request, redirect, url_for, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
-from flask_login import LoginManager, UserMixin, current_user, login_required
-from protocol.models import User, Task2, Task3, Backgrounds, Comments
+from flask_login import LoginManager, UserMixin, current_user, login_required, logout_user, login_user
+from protocol.models import User, Task2, Task3, Backgrounds, Comments, Elapsed_times
 from protocol import admin, db, create_app
 from protocol.utils import Survey
+from protocol.forms import LoginForm, RegistrationForm, BackgroundForm
 import time
 from datetime import datetime
+
 
 main = Blueprint('main', __name__)
 
@@ -16,6 +18,7 @@ admin.add_view(ModelView(Task2, db.session))
 admin.add_view(ModelView(Task3, db.session))
 admin.add_view(ModelView(Backgrounds, db.session))
 admin.add_view(ModelView(Comments, db.session))
+admin.add_view(ModelView(Elapsed_times, db.session))
 
 
 class MyAdminIndexView(AdminIndexView):
@@ -26,117 +29,215 @@ class MyAdminIndexView(AdminIndexView):
 survey = Survey()
 
 
-# survey [1]
+# ------------------- login ------------------- #
+@main.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.protocol'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if user:
+            login_user(user)
+            return redirect(url_for('main.protocol'))
+        else:
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data)
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            return redirect(url_for('main.protocol'))
+
+    return render_template('login.html', title='Login', form=form)
+
+
+# ------------------- survey [1] ------------------- #
 @main.route('/')
+@login_required
 def protocol():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_1 = True
     survey.visit_count_1 += 1
+
+    # TODO: need to prevent people from taking multiple time... check for elapsed time/ completed db
+    #       send to new page
 
     # start timer
     if survey.timer_running is False:
         survey.start_timer()
 
-        # protocol = Protocol(first_name='Keaton',
-        #                     last_name='Cheffer',
-        #                     email='keaton@tamu.edu')
-        # db.session.add(protocol)
-        # db.session.commit()
-
     return render_template('protocol.html', page_number=1, title='Survey Goal')
 
 
-# survey organization [2]
+# ------------------- survey organization [2] ------------------- #
 @main.route('/organization')
+@login_required
 def organization():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_2 = True
     survey.visit_count_2 += 1
     return render_template('organization.html', page_number=2, title='Survey Organization')
 
 
-# backgroud information [3]
+# ------------------- backgroud information [3] ------------------- #
 @main.route('/background')
+@login_required
 def background():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_3 = True
     survey.visit_count_3 += 1
-    # background = Backgrounds(user_id=1, backgrounds='This is my background information in this text field here')
-    # db.session.add(background)
-    # db.session.commit()
     return render_template('background.html', page_number=3, title='Geological Context of the Study Area')
 
 
-# Biosignature hypothesis [4]
+# ------------------- Biosignature hypothesis [4] ------------------- #
 @main.route('/hypothesis')
+@login_required
 def hypothesis():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_4 = True
     survey.visit_count_4 += 1
     return render_template('hypothesis.html', page_number=4, title='Biosignature hypothesis')
 
 
-# Analyses: PIXL-like XRF (1/2) [5]
+# ------------------- Analyses: PIXL-like XRF (1/2) [5] ------------------- #
 @main.route('/analyses1')
+@login_required
 def analyses1():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_5 = True
     survey.visit_count_5 += 1
     return render_template('analyses1.html', page_number=5, title='Analyses: PIXL-like XRF')
 
 
-# Analyses: PIXL-like XRF (2/2) [6]
+# ------------------- Analyses: PIXL-like XRF (2/2) [6] ------------------- #
 @main.route('/analyses2')
+@login_required
 def analyses2():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_6 = True
     survey.visit_count_6 += 1
     return render_template('analyses2.html', page_number=6, title='Analyses: PIXL-like XRF')
 
 
-# Task 1/4 [7]
-@main.route('/task1')
+# ------------------- Task 1/4 [7] ------------------- #
+@main.route('/task1', methods=['GET', 'POST'])
+@login_required
 def task1():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_7 = True
     survey.visit_count_7 += 1
-    return render_template('task1.html', page_number=7, title='Task 1/4')
+
+    # TODO: need to write a check to see if alrady submitted background...
+    #       let them edit in future.
+
+    user = Backgrounds.query.filter_by(user_id=current_user.id).first()
+    if not user:
+        form = BackgroundForm()
+        if form.validate_on_submit():
+            background = Backgrounds(backgrounds=form.background.data, user_id=current_user.id)
+            db.session.add(background)
+            db.session.commit()
+            return redirect(url_for('main.outcrop'))
+    else:
+        form = False
+
+    return render_template('task1.html', page_number=7, title='Task 1/4', form=form)
 
 
-# Outcrop [8]
+# ------------------- Outcrop [8] ------------------- #
 @main.route('/outcrop')
+@login_required
 def outcrop():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_8 = True
     survey.visit_count_8 += 1
     return render_template('outcrop.html', page_number=8, title=False)
 
 
-# Task 2/4 [9]
+# ------------------- Task 2/4 [9] ------------------- #
 @main.route('/task2')
+@login_required
 def task2():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_9 = True
     survey.visit_count_9 += 1
     return render_template('task2.html', page_number=9)
 
 
-# High resolution imagery [10]
+# ------------------- High resolution imagery [10] ------------------- #
 @main.route('/highresolution')
+@login_required
 def highresolution():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_10 = True
     survey.visit_count_10 += 1
     return render_template('highresolution.html', page_number=10)
 
 
-# Task 3/4 [11]
+# ------------------- Task 3/4 [11] ------------------- #
 @main.route('/task3')
+@login_required
 def task3():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_11 = True
     survey.visit_count_11 += 1
     return render_template('task3.html', page_number=11)
 
 
-# Task 4/4 [12]
+# ------------------- Task 4/4 [12] ------------------- #
 @main.route('/task4')
+@login_required
 def task4():
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
     survey.visited_12 = True
     survey.visit_count_12 += 1
 
     # end timer, save data to db
     if survey.timer_running is True:
         survey.end_timer()
+        timer = Elapsed_times(elapsed_times=survey.elapsed, user_id=current_user.id)
+        user = User.query.filter_by(id=current_user.id).first()
+        user.complete = True
+        db.session.add(timer)
+        db.session.commit()
 
     print(survey)
     return render_template('task4.html', page_number=12)
+
+
+# ------------------- landing page ------------------- #
+@main.route("/landingpage")
+@login_required
+def landingpage():
+    logout_user()
+    return render_template('landingpage.html')
+
+
+# ------------------- logout ------------------- #
+@main.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.login'))
+
+
+@main.route('/test')
+def test():
+    return render_template('test.html', threshold=960)
+
+
+@main.route('/test2')
+def test2():
+    return render_template('test2.html', threshold=960)

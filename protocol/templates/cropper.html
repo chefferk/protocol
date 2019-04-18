@@ -1,67 +1,67 @@
 {% extends 'layout.html' %}
 
 {% block head %}
-    <link rel="stylesheet" href="/static/css/cropper.css">
+<link rel="stylesheet" href="/static/css/cropper.css">
 {% endblock %}
 
 {% block body %}
-    <div class="container text-center" max-width="1000px" style="max-width: 1000px">
-      <div class="row" id="actions">
-        <div class="col-md-12 docs-buttons mb-0 mt-0">
-          <h4>Here is the outcrop we are going to analyze!</h4>
-          <h4>For now, there are not chemical analyses from other instruments.</h4>
+<div class="container text-center" max-width="1000px" style="max-width: 1000px">
+  <div class="row" id="actions">
+    <div class="col-md-12 docs-buttons mb-0 mt-0">
+      <h4>Here is the outcrop we are going to analyze!</h4>
+      <h4>For now, there are not chemical analyses from other instruments.</h4>
 
 
-          <div class="btn-group">
-            <button type="button" class="btn btn-danger btn-sm " data-method="clear" title="Clear">
-              <span class="docs-tooltip" data-toggle="tooltip" title="Clear Bounding Box">
-                <span class="fa fa-times"></span> Clear
-              </span>
-            </button>
-          </div>
-          <!-- <button type="button" class="btn btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#exampleModal">
+      <div class="btn-group">
+        <button type="button" class="btn btn-danger btn-sm " data-method="clear" title="Clear">
+          <span class="docs-tooltip" data-toggle="tooltip" title="Clear Bounding Box">
+            <span class="fa fa-times"></span> Clear
+          </span>
+        </button>
+      </div>
+      <!-- <button type="button" class="btn btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa fa-comments fa-5x"></i>&nbsp;Feedback
                         </button> -->
-          <div class="modal fade docs-cropped" id="getCroppedCanvasModal" role="dialog" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" tabindex="-1">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a>
-                </div>
-              </div>
+      <div class="modal fade docs-cropped" id="getCroppedCanvasModal" role="dialog" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a>
             </div>
           </div>
         </div>
-        <div class="col-md-3 docs-toggles">
-          <div class="btn-group d-flex flex-nowrap" data-toggle="buttons"> </div>
-        </div>
-      </div>
-
-      <div class="row mb-0">
-        <div class="card card-blog mb-0 mt-0 img-container" style="background-size: contain">
-          <img class="card-img-top" src="/static/assets/img/task2.png" alt="Card image cap" style="height: auto; width: 100%; max-height: 500px;">
-        </div>
-      </div>
-      <br>
-      <div class="card text-center mt-0" style="width: 100%;">
-        <div class="card-body">
-          </h4>Any area that catches the eye or looks particularly interesting for biosignatures?
-          Why?</h4>
-          <h4>Please draw a bounding box to highlight it.</h4>
-        </div>
       </div>
     </div>
+    <div class="col-md-3 docs-toggles">
+      <div class="btn-group d-flex flex-nowrap" data-toggle="buttons"> </div>
+    </div>
+  </div>
+
+  <div class="row mb-0">
+    <div class="card card-blog mb-0 mt-0 img-container" style="background-size: contain">
+      <img class="card-img-top" src="/static/assets/img/task2.png" alt="Card image cap" style="height: auto; width: 100%; max-height: 500px;">
+    </div>
+  </div>
+  <br>
+  <div class="card text-center mt-0" style="width: 100%;">
+    <div class="card-body">
+      </h4>Any area that catches the eye or looks particularly interesting for biosignatures?
+      Why?</h4>
+      <h4>Please draw a bounding box to highlight it.</h4>
+    </div>
+  </div>
+</div>
 
 <!-- proceed button -->
-{% with page = 'task3',  back='outcrop'  %}
+{% with page = 'main.task3',  back='main.outcrop'  %}
 {% include 'includes/_proceed_button.html' %}
 {% endwith %}
 
