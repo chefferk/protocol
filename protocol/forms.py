@@ -13,11 +13,11 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
 
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired()])
-    submit = SubmitField('Login')
-
-
 class BackgroundForm(FlaskForm):
     background = TextAreaField('Background', validators=[DataRequired()])
     submit = SubmitField('Proceed')
+
+
+class CommentsForm(FlaskForm):
+    comments = TextAreaField('Comments', validators=[DataRequired()])
+    submit = SubmitField('Finish')

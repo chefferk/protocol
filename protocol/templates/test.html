@@ -82,6 +82,10 @@
         console.log('transform start');
       });
 
+      rect.on('click', function () {
+          console.log('You have clicked me.')
+      });
+
       rect.on('dragmove', function () {
         updateText(rect, text);
       });

@@ -6,7 +6,7 @@ from flask_login import LoginManager, UserMixin, current_user, login_required, l
 from protocol.models import User, Task2, Task3, Backgrounds, Comments, Elapsed_times
 from protocol import admin, db, create_app
 from protocol.utils import Survey
-from protocol.forms import LoginForm, RegistrationForm, BackgroundForm
+from protocol.forms import RegistrationForm, BackgroundForm, CommentsForm
 import time
 from datetime import datetime
 
@@ -196,7 +196,7 @@ def task3():
 
 
 # ------------------- Task 4/4 [12] ------------------- #
-@main.route('/task4')
+@main.route('/task4', methods=['GET', 'POST'])
 @login_required
 def task4():
     if current_user.complete:
@@ -204,17 +204,22 @@ def task4():
     survey.visited_12 = True
     survey.visit_count_12 += 1
 
-    # end timer, save data to db
-    if survey.timer_running is True:
-        survey.end_timer()
-        timer = Elapsed_times(elapsed_times=survey.elapsed, user_id=current_user.id)
-        user = User.query.filter_by(id=current_user.id).first()
-        user.complete = True
-        db.session.add(timer)
+    form = CommentsForm()
+    if form.validate_on_submit():
+        # end timer, save data to db
+        if survey.timer_running is True:
+            survey.end_timer()
+            timer = Elapsed_times(elapsed_times=survey.elapsed, user_id=current_user.id)
+            user = User.query.filter_by(id=current_user.id).first()
+            user.complete = True
+            db.session.add(timer)
+        comments = Comments(comments=form.comments.data, user_id=current_user.id)
+        db.session.add(comments)
         db.session.commit()
+        return redirect(url_for('main.landingpage'))
 
-    print(survey)
-    return render_template('task4.html', page_number=12)
+    # print(survey)
+    return render_template('task4.html', page_number=12, title='Task 4', form=form)
 
 
 # ------------------- landing page ------------------- #
@@ -240,4 +245,21 @@ def test():
 
 @main.route('/test2')
 def test2():
-    return render_template('test2.html', threshold=960)
+    footprints = {
+        1: {
+            'x': 160,
+            'y': 450,
+            'value': 132
+        },
+        2: {
+            'x': 360,
+            'y': 160,
+            'value': 74
+        }
+    }
+    return render_template('test2.html', threshold=960, footprints=footprints)
+
+
+@main.route('/test3')
+def test3():
+    return render_template('test3.html', threshold=960)

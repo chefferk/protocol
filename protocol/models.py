@@ -56,7 +56,7 @@ class Task3(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Task2 {self.task3_rationale1}, {self.task3_rationale2}>'
+        return f'<Task3 {self.task3_rationale1}, {self.task3_rationale2}>'
 
 
 # -------------------- backgrounds db -------------------- #
@@ -66,7 +66,7 @@ class Backgrounds(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Task2 {self.user_id}, {self.backgrounds}>'
+        return f'<Backgrounds {self.user_id}, {self.backgrounds}>'
 
 
 # -------------------- comments db -------------------- #
@@ -76,7 +76,7 @@ class Comments(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Task2 {self.user_id}, {self.comments}>'
+        return f'<Comments {self.user_id}, {self.comments}>'
 
 
 # -------------------- elapsed times db -------------------- #

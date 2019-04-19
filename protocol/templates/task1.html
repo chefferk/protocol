@@ -2,6 +2,7 @@
 
 {% block body %}
 
+
 {% if form %}
 <h4 class="title">Please fill this report introduction:</h4>
 <form class="form" method="POST" action="">
@@ -23,6 +24,10 @@
     {{ form.submit(class="btn btn-primary") }}
   </div>
 </form>
+<input type="text" class="tagsinput form-control" data-role="tagsinput" data-color="info">
+<input name="tagsinput" class="tagsinput tag-rose" value="Minimal, Light, New, Friends" />
+
+<br>
 {% else %}
 <h4 class="title">Thanks for your submission!</h4>
 <!-- proceed button -->
@@ -31,5 +36,7 @@
 {% endwith %}
 
 {% endif %}
+
+
 
 {% endblock %}
