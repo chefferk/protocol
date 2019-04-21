@@ -21,3 +21,15 @@ class BackgroundForm(FlaskForm):
 class CommentsForm(FlaskForm):
     comments = TextAreaField('Comments', validators=[DataRequired()])
     submit = SubmitField('Finish')
+
+
+class Task2Form(FlaskForm):
+    rational = TextAreaField('Rational', validators=[DataRequired()])
+    position = TextAreaField('position', validators=[DataRequired()])
+    submit = SubmitField('Proceed')
+
+
+class Task3Form(FlaskForm):
+    rationals = TextAreaField('Rationals', validators=[DataRequired()])
+    positions = TextAreaField('positions', validators=[DataRequired()])
+    submit = SubmitField('Proceed')

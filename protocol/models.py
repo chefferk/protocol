@@ -30,33 +30,23 @@ class User(UserMixin, db.Model):
 # -------------------- task 2 db -------------------- #
 class Task2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    task2_rationale1 = db.Column(db.Text, nullable=True)
-    task2_rationale2 = db.Column(db.Text, nullable=True)
-    task2_a_pos = db.Column(db.String(100), nullable=True)
-    task2_b_pos = db.Column(db.String(100), nullable=True)
-    task2_c_pos = db.Column(db.String(100), nullable=True)
-    task2_d_pos = db.Column(db.String(100), nullable=True)
-    task2_e_pos = db.Column(db.String(100), nullable=True)
+    rational = db.Column(db.Text, nullable=True)
+    position = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Task2 {self.task2_rationale1}, {self.task2_rationale2}>'
+        return f'<Task2 {self.position}, {self.rational}>'
 
 
 # -------------------- task 3 db -------------------- #
 class Task3(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    task3_rationale1 = db.Column(db.Text, nullable=True)
-    task3_rationale2 = db.Column(db.Text, nullable=True)
-    task3_a_pos = db.Column(db.String(100), nullable=True)
-    task3_b_pos = db.Column(db.String(100), nullable=True)
-    task3_c_pos = db.Column(db.String(100), nullable=True)
-    task3_d_pos = db.Column(db.String(100), nullable=True)
-    task3_e_pos = db.Column(db.String(100), nullable=True)
+    rationals = db.Column(db.Text, nullable=True)
+    positions = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Task3 {self.task3_rationale1}, {self.task3_rationale2}>'
+        return f'<Task3 {self.positions}, {self.rationals}>'
 
 
 # -------------------- backgrounds db -------------------- #

@@ -4,6 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from protocol.config import Config
 from flask_admin import Admin
+import logging
+
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
+
 
 
 admin = Admin()

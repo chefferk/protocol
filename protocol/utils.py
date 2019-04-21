@@ -29,6 +29,7 @@ class Survey:
         self.visit_count_10 = 0
         self.visit_count_11 = 0
         self.visit_count_12 = 0
+        self.task2_complete = False
 
     def start_timer(self):
         self.start = time.time()

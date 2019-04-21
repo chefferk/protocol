@@ -9,6 +9,12 @@ from protocol.utils import Survey
 from protocol.forms import RegistrationForm, BackgroundForm, CommentsForm
 import time
 from datetime import datetime
+import json
+import pprint
+import logging
+
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
 
 
 main = Blueprint('main', __name__)
@@ -170,7 +176,35 @@ def task2():
         return redirect(url_for('main.landingpage'))
     survey.visited_9 = True
     survey.visit_count_9 += 1
-    return render_template('task2.html', page_number=9)
+    locations = None
+
+    if survey.task2_complete:
+        locations = Task2.query.filter_by(user_id=current_user.id).first()
+        print(' ')
+        print(' ')
+        print(locations.position)
+        print(type(locations.position))
+        print(' ')
+        print(' ')
+
+    if request.method == 'GET' and request.args:
+        form = request.args
+        locations = form['locations']
+        parsed = json.loads(locations)
+        if not survey.task2_complete:
+            print('Survey completed')
+            task2 = Task2(position=str(parsed), user_id=current_user.id)
+            db.session.add(task2)
+            db.session.commit()
+            survey.task2_complete = True
+        else:
+            print('Survey revisited')
+            task2 = Task2.query.filter_by(user_id=current_user.id).first()
+            task2.position = str(parsed)
+            db.session.commit()
+        return redirect(url_for('main.highresolution'))
+
+    return render_template('task2.html', page_number=9, threshold=960, visited=survey.visited_9, locations=locations)
 
 
 # ------------------- High resolution imagery [10] ------------------- #
