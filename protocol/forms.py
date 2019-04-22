@@ -25,7 +25,6 @@ class CommentsForm(FlaskForm):
 
 class Task2Form(FlaskForm):
     rational = TextAreaField('Rational', validators=[DataRequired()])
-    position = TextAreaField('position', validators=[DataRequired()])
     submit = SubmitField('Proceed')
 
 

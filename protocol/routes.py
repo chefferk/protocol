@@ -12,6 +12,7 @@ from datetime import datetime
 import json
 import pprint
 import logging
+import ast
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
@@ -176,35 +177,59 @@ def task2():
         return redirect(url_for('main.landingpage'))
     survey.visited_9 = True
     survey.visit_count_9 += 1
-    locations = None
 
-    if survey.task2_complete:
-        locations = Task2.query.filter_by(user_id=current_user.id).first()
-        print(' ')
-        print(' ')
-        print(locations.position)
-        print(type(locations.position))
-        print(' ')
-        print(' ')
+    loc = {}
+    task2 = Task2.query.filter_by(user_id=current_user.id).first()
+    if task2:
+        location = Task2.query.filter_by(user_id=current_user.id).first()
+        location = ast.literal_eval(location.position)
+        location.pop('length', None)
+
+        bad_key = None
+        for key, value in location.items():
+            temp = json.loads(location[key])
+            if temp['className'] == 'Transformer':
+                bad_key = key
+        
+        location.pop(bad_key, None)
+        rational = task2.rational
+
+        loc = {}
+        for key, value in location.items():
+            temp = json.loads(location[key])
+            x = temp['attrs']['x']
+            y = temp['attrs']['y']
+            try:
+                rotation = temp['attrs']['rotation']
+            except Exception as e:
+                rotation = 0
+            value = temp['attrs']['value']
+            loc[key] = {'x': x, 'y': y, 'value': value, 'rotation': rotation}
+    else:
+        location = ''
+        rational = ''
 
     if request.method == 'GET' and request.args:
         form = request.args
-        locations = form['locations']
-        parsed = json.loads(locations)
-        if not survey.task2_complete:
-            print('Survey completed')
-            task2 = Task2(position=str(parsed), user_id=current_user.id)
+        position = form['location']
+        print(position)
+        rational = form['rational']
+        parsed = json.loads(position)
+        if not task2:
+            task2 = Task2(position=str(parsed), rational=rational, user_id=current_user.id)
             db.session.add(task2)
             db.session.commit()
-            survey.task2_complete = True
         else:
-            print('Survey revisited')
             task2 = Task2.query.filter_by(user_id=current_user.id).first()
             task2.position = str(parsed)
+            task2.rational = rational
             db.session.commit()
-        return redirect(url_for('main.highresolution'))
+        if form['action'] == 'back':
+            return redirect(url_for('main.outcrop'))
+        else:
+            return redirect(url_for('main.highresolution'))
 
-    return render_template('task2.html', page_number=9, threshold=960, visited=survey.visited_9, locations=locations)
+    return render_template('task2.html', page_number=9, threshold=45, visited=survey.visited_9, locations=loc, rational=rational)
 
 
 # ------------------- High resolution imagery [10] ------------------- #
@@ -226,7 +251,54 @@ def task3():
         return redirect(url_for('main.landingpage'))
     survey.visited_11 = True
     survey.visit_count_11 += 1
-    return render_template('task3.html', page_number=11)
+
+    loc = {}
+    task3 = Task3.query.filter_by(user_id=current_user.id).first()
+    if task3:
+        locations = Task3.query.filter_by(user_id=current_user.id).first()
+        locations = ast.literal_eval(locations.positions)
+        locations.pop('length', None)
+
+        bad_key = None
+        for key, value in locations.items():
+            temp = json.loads(locations[key])
+            if temp['className'] == 'Transformer':
+                bad_key = key
+        
+        locations.pop(bad_key, None)
+
+        loc = {}
+        for key, value in locations.items():
+            temp = json.loads(locations[key])
+            x = temp['attrs']['x']
+            y = temp['attrs']['y']
+            try:
+                rotation = temp['attrs']['rotation']
+            except Exception as e:
+                rotation = 0
+            value = temp['attrs']['value']
+            loc[key] = {'x': x, 'y': y, 'value': value, 'rotation': rotation}
+    else:
+        locations = ''
+
+    if request.method == 'GET' and request.args:
+        form = request.args
+        positions = form['locations']
+        parsed = json.loads(positions)
+        if not task3:
+            task3 = Task3(positions=str(parsed), user_id=current_user.id)
+            db.session.add(task3)
+            db.session.commit()
+        else:
+            task3 = Task3.query.filter_by(user_id=current_user.id).first()
+            task3.positions = str(parsed)
+            db.session.commit()
+        if form['action'] == 'back':
+            return redirect(url_for('main.highresolution'))
+        else:
+            return redirect(url_for('main.task4'))
+
+    return render_template('task3.html', page_number=11, threshold=960, visited=survey.visited_11, locations=loc)
 
 
 # ------------------- Task 4/4 [12] ------------------- #
@@ -253,7 +325,7 @@ def task4():
         return redirect(url_for('main.landingpage'))
 
     # print(survey)
-    return render_template('task4.html', page_number=12, title='Task 4', form=form)
+    return render_template('task4.html', page_number=12, form=form)
 
 
 # ------------------- landing page ------------------- #

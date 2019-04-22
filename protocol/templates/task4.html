@@ -25,8 +25,9 @@
     {{ form.comments(rows="5", class="form-control form-control-lg") }}
     {% endif %}
   </div>
-  <div class="form-group modal-footer">
-    {{ form.submit(class="btn btn-primary") }}
+  <div class="form-group">
+    {{ form.submit(class="btn btn-primary item pull-right") }}
+    <a href="{{ url_for( 'main.task3' ) }}" class="btn btn-danger item pull-right"><i class="fa fa-arrow-circle-left fa-5x"></i> Back</a>
   </div>
 </form>
 
