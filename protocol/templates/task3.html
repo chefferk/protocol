@@ -39,29 +39,32 @@
         </div>
         <div class="col">
           <h3 id="timeCount">Total time: 000/{{ threshold }}</h3>
-          <br>
           <button class="btn btn-default" id="add32">Add 32 min</button>
+          <img src="https://storage.googleapis.com/geovision-site/Screen%20Shot%202019-04-23%20at%2012.06.06%20PM.png" height="100" width="100"/>
           <br>
           <button class="btn btn-default" id="add143">Add 143 min</button>
+          <img src="https://storage.googleapis.com/geovision-site/Screen%20Shot%202019-04-23%20at%2012.06.15%20PM.png" height="100" width="100"/>
           <br>
           <button class="btn btn-default" id="add610">Add 610 min</button>
+          <img src="https://storage.googleapis.com/geovision-site/Screen%20Shot%202019-04-23%20at%2012.06.10%20PM.png" height="100" width="100"/>
           <br>
           <button class="btn btn-default" id="add943">Add 943 min</button>
+          <img src="https://storage.googleapis.com/geovision-site/Screen%20Shot%202019-04-23%20at%2012.06.18%20PM.png" height="100" width="100"/>
           <br>
           <button class="btn btn-default" id="add74">Add 74 min</button>
+          <img src="https://storage.googleapis.com/geovision-site/Screen%20Shot%202019-04-23%20at%2012.06.24%20PM.png" height="100" width="100"/>
           <br>
           <button class="btn btn-default" id="add72">Add 72 min</button>
-          <br>
+          <img src="https://storage.googleapis.com/geovision-site/Screen%20Shot%202019-04-23%20at%2012.06.39%20PM.png" height="100" width="100"/>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div id="container" style="background:
                 url('https://storage.googleapis.com/geovision-site/task3_small.jpg');
                 width: 100%;
                 background-repeat: no-repeat;"></div>
     </div>
-    <div class="col-md-2"></div>
   </div>
   <form action="" method="GET">
     <fieldset class="form-group">
@@ -125,53 +128,55 @@
 
     {% if locations[item]['value'] == 32 %}
     var x = {{ locations[item]['x'] }};
-    var y = {{ locations[item]['y'] }};
-    var rot = {{ locations[item]['rotation'] }};
-    add32(x, y, rot, rot);
-    {% endif %}
+  var y = {{ locations[item]['y'] }};
+  var rot = {{ locations[item]['rotation'] }};
+  add32(x, y, rot);
+  {% endif %}
 
-    {% if locations[item]['value'] == 143 %}
-    var x = {{ locations[item]['x'] }};
-    var y = {{ locations[item]['y'] }};
-    var rot = {{ locations[item]['rotation'] }};
-    add143(x, y, rot);
-    {% endif %}
+  {% if locations[item]['value'] == 143 %}
+  var x = {{ locations[item]['x'] }};
+  var y = {{ locations[item]['y'] }};
+  var rot = {{ locations[item]['rotation'] }};
+  add143(x, y, rot);
+  {% endif %}
 
-    {% if locations[item]['value'] == 610 %}
-    var x = {{ locations[item]['x'] }};
-    var y = {{ locations[item]['y'] }};
-    var rot = {{ locations[item]['rotation'] }};
-    add610(x, y, rot);
-    {% endif %}
+  {% if locations[item]['value'] == 610 %}
+  var x = {{ locations[item]['x'] }};
+  var y = {{ locations[item]['y'] }};
+  var rot = {{ locations[item]['rotation'] }};
+  add610(x, y, rot);
+  {% endif %}
 
-    {% if locations[item]['value'] == 943 %}
-    var x = {{ locations[item]['x'] }};
-    var y = {{ locations[item]['y'] }};
-    var rot = {{ locations[item]['rotation'] }};
-    add943(x, y, rot);
-    {% endif %}
+  {% if locations[item]['value'] == 943 %}
+  var x = {{ locations[item]['x'] }};
+  var y = {{ locations[item]['y'] }};
+  var rot = {{ locations[item]['rotation'] }};
+  add943(x, y, rot);
+  {% endif %}
 
-    {% if locations[item]['value'] == 74 %}
-    var x = {{ locations[item]['x'] }};
-    var y = {{ locations[item]['y'] }};
-    var rot = {{ locations[item]['rotation'] }};
-    add74(x, y, rot);
-    {% endif %}
+  {% if locations[item]['value'] == 74 %}
+  var x = {{ locations[item]['x'] }};
+  var y = {{ locations[item]['y'] }};
+  var rot = {{ locations[item]['rotation'] }};
+  add74(x, y, rot);
+  {% endif %}
 
-    {% if locations[item]['value'] == 72 %}
-    var x = {{ locations[item]['x'] }};
-    var y = {{ locations[item]['y'] }};
-    var rot = {{ locations[item]['rotation'] }};
-    add72(x, y, rot);
-    {% endif %}
+  {% if locations[item]['value'] == 72 %}
+  var x = {{ locations[item]['x'] }};
+  var y = {{ locations[item]['y'] }};
+  var rot = {{ locations[item]['rotation'] }};
+  add72(x, y, rot);
+  {% endif %}
 
-    {% endfor %}
+  {% endfor %}
     }
 
 
   // ---------- grid (143 min) ---------- //
   document.getElementById('add143').addEventListener('click', function () {
-    add143(width / 6, 160, 0);
+    var x = Math.floor(Math.random() * (width * .75)) + (width * .125);  
+    var y = height / 6
+    add143(x, y, 0);
   });
 
   function add143(x, y, rot) {
@@ -194,7 +199,9 @@
 
   // ---------- 1 line (32 min) ---------- //
   document.getElementById('add32').addEventListener('click', function () {
-    add32((width / 6) * 2, 160, 0);
+    var x = Math.floor(Math.random() * (width * .75)) + (width * .125);  
+    var y = height / 6 * 2
+    add32(x, y, 0);
   });
 
   function add32(x, y, rot) {
@@ -223,7 +230,9 @@
 
   // ---------- 7x7 square (610 min) ---------- //
   document.getElementById('add610').addEventListener('click', function () {
-    add610((width / 6) * 3, 160, 0);
+    var x = Math.floor(Math.random() * (width * .75)) + (width * .125);
+    var y = height / 6 * 3
+    add610(x, y, 0);
   });
 
   function add610(x, y, rot) {
@@ -252,7 +261,9 @@
 
   // ---------- 5x15 square (943 min) ---------- //
   document.getElementById('add943').addEventListener('click', function () {
-    add943((width / 6), 360, 0);
+    var x = Math.floor(Math.random() * (width * .75)) + (width * .125);  
+    var y = height / 6 * 4
+    add943(x, y, 0);
   });
 
   function add943(x, y, rot) {
@@ -281,7 +292,9 @@
 
   // ---------- 2x2 square (72 min) ---------- //
   document.getElementById('add72').addEventListener('click', function () {
-    add72((width / 6) * 2, 360, 0);
+    var x = Math.floor(Math.random() * (width * .75)) + (width * .125);  
+    var y = height / 6 * 5
+    add72(x, y, 0);
   });
 
   function add72(x, y, rot) {
@@ -310,7 +323,9 @@
 
   // ---------- 3 lines (74 min) ---------- //
   document.getElementById('add74').addEventListener('click', function () {
-    add74((width / 6) * 3, 360, 0);
+    var x = Math.floor(Math.random() * (width * .75)) + (width * .125);  
+    var y = height / 6 * 3.5
+    add74(x, y, 0);
   });
 
   function add74(x, y, rot) {

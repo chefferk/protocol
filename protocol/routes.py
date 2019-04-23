@@ -6,7 +6,7 @@ from flask_login import LoginManager, UserMixin, current_user, login_required, l
 from protocol.models import User, Task2, Task3, Backgrounds, Comments, Elapsed_times
 from protocol import admin, db, create_app
 from protocol.utils import Survey
-from protocol.forms import RegistrationForm, BackgroundForm, CommentsForm
+from protocol.forms import RegistrationForm, CommentsForm
 import time
 from datetime import datetime
 import json
@@ -141,21 +141,36 @@ def task1():
     survey.visited_7 = True
     survey.visit_count_7 += 1
 
-    # TODO: need to write a check to see if alrady submitted background...
-    #       let them edit in future.
-
     user = Backgrounds.query.filter_by(user_id=current_user.id).first()
-    if not user:
-        form = BackgroundForm()
-        if form.validate_on_submit():
-            background = Backgrounds(backgrounds=form.background.data, user_id=current_user.id)
+    if user:
+        info = user.backgrounds
+    else:
+        info = ''
+
+    if request.method == 'GET' and request.args:
+        form = request.args
+        print(form)
+        bg = form['background']
+        action = form['action']
+
+        if not user:
+            background = Backgrounds(backgrounds=bg, user_id=current_user.id)
             db.session.add(background)
             db.session.commit()
-            return redirect(url_for('main.outcrop'))
-    else:
-        form = False
+            if action == 'proceed':
+                return redirect(url_for('main.outcrop'))
+            else:
+                return redirect(url_for('main.analyses2'))
+        else:
+            user.backgrounds = bg
+            db.session.commit()
 
-    return render_template('task1.html', page_number=7, title='Task 1/4', form=form)
+            if action == 'proceed':
+                return redirect(url_for('main.outcrop'))
+            else:
+                return redirect(url_for('main.analyses2'))
+
+    return render_template('task1.html', page_number=7, title='Task 1/4', info=info)
 
 
 # ------------------- Outcrop [8] ------------------- #
@@ -190,7 +205,7 @@ def task2():
             temp = json.loads(location[key])
             if temp['className'] == 'Transformer':
                 bad_key = key
-        
+
         location.pop(bad_key, None)
         rational = task2.rational
 
@@ -264,7 +279,7 @@ def task3():
             temp = json.loads(locations[key])
             if temp['className'] == 'Transformer':
                 bad_key = key
-        
+
         locations.pop(bad_key, None)
 
         loc = {}
@@ -296,7 +311,7 @@ def task3():
         if form['action'] == 'back':
             return redirect(url_for('main.highresolution'))
         else:
-            return redirect(url_for('main.task4'))
+            return redirect(url_for('main.test2'))
 
     return render_template('task3.html', page_number=11, threshold=960, visited=survey.visited_11, locations=loc)
 
@@ -325,7 +340,7 @@ def task4():
         return redirect(url_for('main.landingpage'))
 
     # print(survey)
-    return render_template('task4.html', page_number=12, form=form)
+    return render_template('task4.html', page_number=13, form=form)
 
 
 # ------------------- landing page ------------------- #
@@ -351,19 +366,94 @@ def test():
 
 @main.route('/test2')
 def test2():
-    footprints = {
-        1: {
-            'x': 160,
-            'y': 450,
-            'value': 132
-        },
-        2: {
-            'x': 360,
-            'y': 160,
-            'value': 74
-        }
-    }
-    return render_template('test2.html', threshold=960, footprints=footprints)
+    if current_user.complete:
+        return redirect(url_for('main.landingpage'))
+    survey.visited_13 = True
+    survey.visit_count_13 += 1
+
+    loc = {}
+    task3 = Task3.query.filter_by(user_id=current_user.id).first()
+
+    if task3:
+        task3 = Task3.query.filter_by(user_id=current_user.id).first()
+        locations = ast.literal_eval(task3.positions)
+        locations.pop('length', None)
+
+        # rationals_list = []
+        # rationals = ast.literal_eval(task3.rationals)
+        # for key, value in rationals.items():
+        #     print(value)
+        #     rationals_list.append(value['rational'])
+
+        if task3.rationals:
+            rationals = task3.rationals.split(' ')
+        else:
+            rationals = ''
+
+        bad_key = None
+        for key, value in locations.items():
+            temp = json.loads(locations[key])
+            if temp['className'] == 'Transformer':
+                bad_key = key
+
+        locations.pop(bad_key, None)
+
+        loc = {}
+        for key, value in locations.items():
+            temp = json.loads(locations[key])
+            x = temp['attrs']['x']
+            y = temp['attrs']['y']
+            try:
+                rotation = temp['attrs']['rotation']
+            except Exception as e:
+                rotation = 0
+            value = temp['attrs']['value']
+            loc[key] = {'x': x, 'y': y, 'value': value, 'rotation': rotation}
+        length = len(loc.keys())
+    else:
+        locations = ''
+        rationals = []
+
+    if request.method == 'GET' and request.args:
+        form = request.args
+        positions = form['locations']
+        parsed = json.loads(positions)
+        parsed.pop('length', None)
+        num_rationals = form['numRationals']
+
+        rationals = []
+        for i in range(int(num_rationals)):
+            rationals.append(form[f'rational{i+1}'])
+
+        rationals_dict = {}
+        for key, value in parsed.items():
+            temp = json.loads(parsed[key])
+            try:
+                order = temp['attrs']['order']
+                the_id = temp['attrs']['id']
+            except Exception as e:
+                order = 0
+                the_id = 1
+            rationals_dict[the_id] = {'order': order, 'rational': rationals[int(the_id)-1]}
+
+        if task3:
+            task3 = Task3.query.filter_by(user_id=current_user.id).first()
+            task3.rationals = ' '.join(rationals)
+            print(' ')
+            print(' ')
+            print(rationals)
+            print(' ')
+            print(' ')
+            db.session.commit()
+        else:
+            print('SOMETHING WENT WRONG...')
+
+        if form['action'] == 'back':
+            return redirect(url_for('main.task3'))
+        else:
+            return redirect(url_for('main.task4'))
+
+    return render_template('test2.html', page_number=12, locations=loc, visited='True', length=length, rationals=rationals)
 
 
 @main.route('/test3')

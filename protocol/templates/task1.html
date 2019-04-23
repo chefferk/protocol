@@ -2,40 +2,27 @@
 
 {% block body %}
 
+<h4 class="title text-center mb-0">Please list below 4 keywords (or more) that describe your main research/expertise</h4>
+<h5 class="text-center mt-0">(examples: Sedimentology; Geochemistry; Microbiology; Planetary Sciences; Engineering; Computer Sciences; ...)</h5>
+<form action="" method="GET">
+  <fieldset class="form-group">
+    <textarea type="text-area" style="background-color: rgb(240, 240, 240)" class="form-control" name="background" id="background" placeholder="Background info" required>{{ info }}</textarea>
 
-{% if form %}
-<h4 class="title">Please fill this report introduction:</h4>
-<form class="form" method="POST" action="">
-  {{ form.hidden_tag() }}
-  <div class="form-group ml-4 mr-4 mt-4">
-    {{ form.background.label(class="form-control-label") }}
-    {% if form.background.errors %}
-    {{ form.background(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.background.errors %}
-      <span>{{ error }}</span>
-      {% endfor %}
-    </div>
-    {% else %}
-    {{ form.background(rows="5", class="form-control form-control-lg") }}
-    {% endif %}
-  </div>
-  <div class="form-group modal-footer">
-    {{ form.submit(class="btn btn-primary") }}
-  </div>
+    <button class="btn btn-primary item pull-right" type="submit" name="action" value="proceed" id="locationSubmit">Submit</button>
+    <button class="btn btn-danger item pull-right" type="submit" name="action" value="back" id="locationSubmit2"><i class="fa fa-arrow-circle-left fa-5x"></i> Back</button>
+  </fieldset>
 </form>
-<input type="text" class="tagsinput form-control" data-role="tagsinput" data-color="info">
-<input name="tagsinput" class="tagsinput tag-rose" value="Minimal, Light, New, Friends" />
 
-<br>
-{% else %}
-<h4 class="title">Thanks for your submission!</h4>
-<!-- proceed button -->
+<!-- proceed button
 {% with page = 'main.outcrop', back = 'main.analyses2' %}
 {% include 'includes/_proceed_button.html' %}
-{% endwith %}
+{% endwith %} -->
 
-{% endif %}
+<script>
+  document.getElementById("locationSubmit2").addEventListener('click', function () {
+    document.getElementById('background').required = false;
+  });
+</script>
 
 
 

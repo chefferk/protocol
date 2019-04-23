@@ -17,6 +17,7 @@ class Survey:
         self.visited_10 = False
         self.visited_11 = False
         self.visited_12 = False
+        self.visited_13 = False
         self.visit_count_1 = 0
         self.visit_count_2 = 0
         self.visit_count_3 = 0
@@ -29,6 +30,7 @@ class Survey:
         self.visit_count_10 = 0
         self.visit_count_11 = 0
         self.visit_count_12 = 0
+        self.visit_count_13 = 0
 
     def start_timer(self):
         self.start = time.time()
@@ -56,4 +58,5 @@ class Survey:
             f'Page 10 visited: {self.visit_count_10} times\n'
             f'Page 11 visited: {self.visit_count_11} times\n'
             f'Page 12 visited: {self.visit_count_12} times\n'
+            f'Page 13 visited: {self.visit_count_13} times\n'
         )
