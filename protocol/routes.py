@@ -425,25 +425,10 @@ def test2():
         for i in range(int(num_rationals)):
             rationals.append(form[f'rational{i+1}'])
 
-        rationals_dict = {}
-        for key, value in parsed.items():
-            temp = json.loads(parsed[key])
-            try:
-                order = temp['attrs']['order']
-                the_id = temp['attrs']['id']
-            except Exception as e:
-                order = 0
-                the_id = 1
-            rationals_dict[the_id] = {'order': order, 'rational': rationals[int(the_id)-1]}
-
         if task3:
             task3 = Task3.query.filter_by(user_id=current_user.id).first()
             task3.rationals = ' '.join(rationals)
-            print(' ')
-            print(' ')
-            print(rationals)
-            print(' ')
-            print(' ')
+            task3.positions = str(parsed)
             db.session.commit()
         else:
             print('SOMETHING WENT WRONG...')

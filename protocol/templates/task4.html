@@ -26,6 +26,11 @@
     {% endif %}
   </div>
   <div class="form-group">
+    <div class="row">
+      <div class="col">
+        <p class="pull-right small">NOTE: Once you hit finish, no additional changes will be allowed. </p>
+      </div>
+    </div>
     {{ form.submit(class="btn btn-primary item pull-right") }}
     <a href="{{ url_for( 'main.test2' ) }}" class="btn btn-danger item pull-right"><i class="fa fa-arrow-circle-left fa-5x"></i> Back</a>
   </div>
