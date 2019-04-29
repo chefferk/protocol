@@ -10,8 +10,7 @@ logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
 
 
-
-admin = Admin()
+admin = Admin(template_mode='bootstrap3')
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'main.login'

@@ -10,7 +10,7 @@ class RegistrationForm(FlaskForm):
     first_name = StringField('First', validators=[DataRequired()])
     last_name = StringField('Last', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Sign Up')
+    submit = SubmitField('Take the survey')
 
 
 class BackgroundForm(FlaskForm):
@@ -19,7 +19,7 @@ class BackgroundForm(FlaskForm):
 
 
 class CommentsForm(FlaskForm):
-    comments = TextAreaField('Comments', validators=[DataRequired()])
+    comments = TextAreaField('Comments')
     submit = SubmitField('Finish')
 
 

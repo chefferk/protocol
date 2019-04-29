@@ -2,48 +2,80 @@
 
 {% block body %}
 <a href="{{ url_for('main.protocol' ) }}">Survey</a> <br><br>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<div id="linechart_material"></div>
 
-<script>
-  google.charts.load('current', { 'packages': ['line'] });
+<div class="row">
+  <div class="col-md-4">
+    <div class="well">
+      <h3>Average elapsed time:</h3>
+      <h1>{{ time }} s</h1>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="well">
+      <h3>Number of users:</h3>
+      <h1>{{ num_users }}</h1>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="well">
+      <h3>Completed surveys:</h3>
+      <h1>{{ num_completed }}</h1>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div style="display: flex; align-items: center; justify-content: center;">
+  <div id="piechart" style="width: 900px; height: 500px;"></div>
+  <div id="chart_div" style="width: 100%; height: 500px;"></div>
+</div>
+
+<script type="text/javascript">
+  google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
 
-    var data = new google.visualization.DataTable();
-    data.addColumn('number', 'Day');
-    data.addColumn('number', 'Completed Surveys');
+    var data = google.visualization.arrayToDataTable([
+      ['Task', 'Count'],
+      ['Completed', {{ num_completed }}],
+  ['Not completed', {{ num_users - num_completed }}],
+    ]);
 
-    data.addRows([
-      [1, 0],
-      [2, 0],
-      [3, 1],
-      [4, 1],
-      [5, 2],
-      [6, 3],
-      [7, 5],
-      [8, 2],
-      [9, 4],
-      [10, 7],
-      [11, 5],
-      [12, 3],
-      [13, 4],
-      [14, 7]
+  var options = {
+    colors: ["#273647", '#1C8F5F'],
+    legend: 'none'
+  };
+
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+  chart.draw(data, options);
+  }
+</script>
+
+<script type="text/javascript">
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Year', 'Sales', 'Expenses'],
+      ['2013', 1000, 400],
+      ['2014', 1170, 460],
+      ['2015', 660, 1120],
+      ['2016', 1030, 540]
     ]);
 
     var options = {
-      chart: {
-        title: 'Number of completed serverys',
-        subtitle: 'per day'
-      },
-      width: 900,
-      height: 500
+      hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+      vAxis: { minValue: 0 },
+      colors: ["#273647", '#1C8F5F'],
     };
 
-    var chart = new google.charts.Line(document.getElementById('linechart_material'));
+    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>
 
-    chart.draw(data, google.charts.Line.convertOptions(options));
-  }</script>
-
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
 {% endblock %}

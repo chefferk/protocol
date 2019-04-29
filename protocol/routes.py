@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, Blueprint
 from flask_sqlalchemy import SQLAlchemy
-from flask_admin import Admin, AdminIndexView
+from flask_admin import Admin, AdminIndexView, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import LoginManager, UserMixin, current_user, login_required, logout_user, login_user
 from protocol.models import User, Task2, Task3, Backgrounds, Comments, Elapsed_times
@@ -20,6 +20,7 @@ logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
 
 main = Blueprint('main', __name__)
 
+
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Task2, db.session))
 admin.add_view(ModelView(Task3, db.session))
@@ -28,9 +29,31 @@ admin.add_view(ModelView(Comments, db.session))
 admin.add_view(ModelView(Elapsed_times, db.session))
 
 
+def Average(lst):
+    return sum(lst) / len(lst)
+
+
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):
-        return True
+        admin = User.query.filter_by(admin=True).all()
+        if current_user in admin:
+            return True
+        else:
+            print(current_user.get_id())
+            return False
+
+    @expose('/')
+    def index(self):
+        times = []
+        elapsed = Elapsed_times.query.all()
+        for i in elapsed:
+            times.append(i.elapsed_times)
+
+        users = User.query.count()
+        completed = Elapsed_times.query.count()
+
+        time = f'{Average(times):.2f}'
+        return self.render('admin/index.html', time=time, num_users=users, num_completed=completed)
 
 
 survey = Survey()
@@ -326,7 +349,7 @@ def task4():
     survey.visit_count_12 += 1
 
     form = CommentsForm()
-    if form.validate_on_submit():
+    if request.method == 'POST':
         # end timer, save data to db
         if survey.timer_running is True:
             survey.end_timer()
@@ -347,7 +370,13 @@ def task4():
 @main.route("/landingpage")
 @login_required
 def landingpage():
-    logout_user()
+    admin = User.query.filter_by(admin=True).all()
+    if current_user in admin:
+        pass
+    else:
+        print(current_user.get_id())
+        logout_user()
+
     return render_template('landingpage.html')
 
 
@@ -355,6 +384,7 @@ def landingpage():
 @main.route("/logout")
 @login_required
 def logout():
+
     logout_user()
     return redirect(url_for('main.login'))
 
